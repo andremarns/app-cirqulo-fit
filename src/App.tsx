@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { WorkoutProvider, useWorkout } from './contexts/WorkoutContext';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { HomePage } from './pages/HomePage';
 import { WorkoutPage } from './pages/WorkoutPage';
+import { AuthPage } from './pages/AuthPage';
+import { UserPage } from './pages/UserPage';
 import { getThemeColors } from './styles/theme';
 
 const GlobalStyle = createGlobalStyle<{ theme: 'light' | 'dark' }>`
@@ -53,6 +56,62 @@ const AppContainer = styled.div`
 const AppContent: React.FC = () => {
   const { state } = useWorkout();
   const { theme } = useTheme();
+  const { isAuthenticated, isLoading } = useAuth();
+  
+  // Verificar se há token de retorno do Maestro
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    const redirect = urlParams.get('redirect');
+    
+    if (token) {
+      // Salvar token e redirecionar
+      localStorage.setItem('cirqulo_token', token);
+      if (redirect) {
+        window.location.href = redirect;
+      } else {
+        window.location.href = window.location.origin;
+      }
+    }
+  }, []);
+  
+  if (isLoading) {
+    return (
+      <AppContainer>
+        <GlobalStyle theme={theme} />
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '100vh',
+          fontSize: '1.2rem',
+          color: getThemeColors(theme).text.primary
+        }}>
+          Carregando...
+        </div>
+      </AppContainer>
+    );
+  }
+  
+  if (!isAuthenticated) {
+    return (
+      <AppContainer>
+        <GlobalStyle theme={theme} />
+        <AuthPage />
+      </AppContainer>
+    );
+  }
+  
+  // Verificar se está na página de usuário
+  const currentPath = window.location.pathname;
+  if (currentPath === '/user' || currentPath === '/profile') {
+    return (
+      <AppContainer>
+        <GlobalStyle theme={theme} />
+        <UserPage />
+      </AppContainer>
+    );
+  }
   
   return (
     <AppContainer>
@@ -65,9 +124,11 @@ const AppContent: React.FC = () => {
 function App() {
   return (
     <ThemeProvider>
-      <WorkoutProvider>
-        <AppContent />
-      </WorkoutProvider>
+      <AuthProvider>
+        <WorkoutProvider>
+          <AppContent />
+        </WorkoutProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Play, BarChart3, Trophy, Settings } from 'lucide-react';
+import { Play, BarChart3, Trophy, Settings, User } from 'lucide-react';
 import { useWorkout } from '../contexts/WorkoutContext';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
 import { UserStats } from '../components/UserStats';
 import { ProgressBar } from '../components/ProgressBar';
 import { ThemeToggle } from '../components/ThemeToggle';
+import { CirquloLogoWithText } from '../components/CirquloLogo';
 import { getThemeColors } from '../styles/theme';
 
 const Container = styled.div<{ theme: 'light' | 'dark' }>`
@@ -25,20 +27,44 @@ const Header = styled.div<{ theme: 'light' | 'dark' }>`
   }
 `;
 
-const ThemeToggleContainer = styled.div`
+const HeaderActions = styled.div`
   position: absolute;
   top: 0;
   right: 0;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
   
   @media (max-width: 768px) {
     top: 0.5rem;
     right: 0.5rem;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.5rem;
   }
+`;
+
+const UserButton = styled.button<{ theme: 'light' | 'dark' }>`
+  background: ${props => getThemeColors(props.theme).card};
+  border: 1px solid ${props => getThemeColors(props.theme).border};
+  border-radius: 12px;
+  padding: 0.75rem;
+  color: ${props => getThemeColors(props.theme).text.primary};
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &:hover {
+    background: ${props => getThemeColors(props.theme).border};
+    transform: translateY(-2px);
+  }
+`;
+
+const ThemeToggleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 `;
 
 const ThemeLabel = styled.span<{ theme: 'light' | 'dark' }>`
@@ -169,6 +195,7 @@ const NextLevelInfo = styled.div<{ theme: 'light' | 'dark' }>`
 export const HomePage: React.FC = () => {
   const { state, startWorkout } = useWorkout();
   const { theme } = useTheme();
+  const { user: authUser } = useAuth();
   const { user } = state;
 
   const currentLevelExp = (user.level - 1) * 100;
@@ -191,17 +218,29 @@ export const HomePage: React.FC = () => {
     startWorkout();
   };
 
+  const handleUserClick = () => {
+    window.location.href = '/user';
+  };
+
   return (
     <Container theme={theme}>
       <Header theme={theme}>
-        <ThemeToggleContainer>
-          <ThemeLabel theme={theme}>
-            {theme === 'dark' ? 'Escuro' : 'Claro'}
-          </ThemeLabel>
-          <ThemeToggle />
-        </ThemeToggleContainer>
-        <Title theme={theme}>💪 CirquloFit</Title>
-        <Subtitle theme={theme}>Seu companheiro de treino gamificado</Subtitle>
+        <HeaderActions>
+          <UserButton theme={theme} onClick={handleUserClick}>
+            <User size={20} />
+            {authUser?.name || 'Usuário'}
+          </UserButton>
+          <ThemeToggleContainer>
+            <ThemeLabel theme={theme}>
+              {theme === 'dark' ? 'Escuro' : 'Claro'}
+            </ThemeLabel>
+            <ThemeToggle />
+          </ThemeToggleContainer>
+        </HeaderActions>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+          <CirquloLogoWithText size={80} variant="fit" theme={theme} showPulse={true} />
+          <Subtitle theme={theme}>Seu companheiro de treino gamificado</Subtitle>
+        </div>
       </Header>
 
       <QuickActions>

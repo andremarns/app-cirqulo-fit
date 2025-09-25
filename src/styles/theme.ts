@@ -38,81 +38,81 @@ export interface ThemeColors {
 }
 
 export const lightTheme: ThemeColors = {
-  // Cores principais
-  primary: '#667eea',
-  secondary: '#764ba2',
-  accent: '#4caf50',
+  // Cores principais - Lilás e Roxo
+  primary: '#8b5cf6',       // Lilás
+  secondary: '#a855f7',     // Roxo médio
+  accent: '#10b981',        // Verde para sucesso
   
   // Cores de fundo
-  background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-  surface: '#ffffff',
+  background: '#ffffff',    // Branco
+  surface: '#faf5ff',       // Lilás muito claro
   card: '#ffffff',
   
   // Cores de texto
   text: {
-    primary: '#333333',
-    secondary: '#666666',
-    muted: '#999999'
+    primary: '#581c87',     // Roxo escuro
+    secondary: '#7c2d12',   // Roxo médio
+    muted: '#a78bfa'        // Lilás claro
   },
   
   // Cores de borda
-  border: '#e0e0e0',
-  divider: '#f0f0f0',
+  border: '#e9d5ff',        // Lilás claro
+  divider: '#f3e8ff',       // Lilás muito claro
   
   // Cores de status
-  success: '#4caf50',
-  warning: '#ff9800',
-  error: '#f44336',
-  info: '#2196f3',
+  success: '#10b981',
+  warning: '#f59e0b',
+  error: '#ef4444',
+  info: '#06b6d4',
   
   // Cores de níveis
-  level1: '#4caf50', // Iniciante - Verde
-  level2: '#2196f3', // Aprendiz - Azul
-  level3: '#ff9800', // Intermediário - Laranja
+  level1: '#10b981',        // Iniciante - Verde
+  level2: '#8b5cf6',        // Aprendiz - Lilás
+  level3: '#a855f7',        // Intermediário - Roxo
   
   // Cores de hover e estados
-  hover: '#f5f5f5',
-  active: '#e0e0e0',
-  disabled: '#cccccc'
+  hover: '#f3e8ff',         // Lilás muito claro
+  active: '#e9d5ff',        // Lilás claro
+  disabled: '#d1d5db'       // Cinza
 };
 
 export const darkTheme: ThemeColors = {
-  // Cores principais
-  primary: '#7c4dff',
-  secondary: '#9c27b0',
-  accent: '#00e676',
+  // Cores principais - Roxo escuro no modo escuro
+  primary: '#6d28d9',       // Roxo escuro
+  secondary: '#4c1d95',     // Roxo mais escuro
+  accent: '#10b981',        // Verde para sucesso
   
   // Cores de fundo
-  background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
-  surface: '#2d2d44',
-  card: '#2d2d44',
+  background: '#1e1b4b',    // Roxo muito escuro
+  surface: '#312e81',       // Roxo escuro
+  card: '#312e81',
   
   // Cores de texto
   text: {
-    primary: '#ffffff',
-    secondary: '#b0b0b0',
-    muted: '#808080'
+    primary: '#f3e8ff',     // Lilás claro
+    secondary: '#c4b5fd',   // Lilás médio
+    muted: '#a78bfa'        // Lilás
   },
   
   // Cores de borda
-  border: '#404040',
-  divider: '#333333',
+  border: '#4c1d95',        // Roxo escuro
+  divider: '#312e81',       // Roxo escuro
   
   // Cores de status
-  success: '#00e676',
-  warning: '#ffb74d',
-  error: '#f44336',
-  info: '#64b5f6',
+  success: '#10b981',
+  warning: '#f59e0b',
+  error: '#ef4444',
+  info: '#06b6d4',
   
   // Cores de níveis
-  level1: '#00e676', // Iniciante - Verde claro
-  level2: '#64b5f6', // Aprendiz - Azul claro
-  level3: '#ffb74d', // Intermediário - Laranja claro
+  level1: '#10b981',        // Iniciante - Verde
+  level2: '#6d28d9',        // Aprendiz - Roxo escuro
+  level3: '#4c1d95',        // Intermediário - Roxo mais escuro
   
   // Cores de hover e estados
-  hover: '#404040',
-  active: '#505050',
-  disabled: '#666666'
+  hover: '#4c1d95',         // Roxo escuro
+  active: '#312e81',        // Roxo escuro
+  disabled: '#6b7280'       // Cinza
 };
 
 export const getThemeColors = (theme: 'light' | 'dark'): ThemeColors => {
